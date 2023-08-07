@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-import { Col, Container, Form, FormGroup, Input, Label, Row, Table } from 'reactstrap'
+import { Col, Container, Form, FormGroup, Input, Label, Row, Spinner, Table } from 'reactstrap'
 const UserApi = () => {
     let [arr, setarr] = useState([])
     let [obj, setobj] = useState({ hobbies: '' })
+    let [loading, setloading] = useState(false)
+    let [rowdelet, setrowdelet] = useState(false)
     let reference = useRef()
     /* api methods are different type. Which is created by backend developer
     Mostly 4 to 5 api method available
@@ -74,12 +76,23 @@ const UserApi = () => {
             .catch((err) => console.log(err))
     }
     const deleteapi = (a) => {
-        a = `https://student-api.mycodelibraries.com/api/user/delete?id=${a}`
-        axios.delete(a).then((res) => {
-            getData()
-        }).catch((err) => console.log(err))
+        setloading(true)
+        if (rowdelet) {
+            a = `https://student-api.mycodelibraries.com/api/user/delete?id=${a}`
+            axios.delete(a).then((res) => {
+                setrowdelet(false)
+                getData()
+            }).catch((err) => console.log(err))
+        }
     }
-
+    const Delete = () => {
+        setrowdelet(true)
+        setloading(false)
+    }
+    const NoDelete = () => {
+        setrowdelet(false)
+        setloading(false)
+    }
     const editFunction = (id) => {
         axios.get("https://student-api.mycodelibraries.com/api/user/get-user-by-id?id=" + id).then((res) => {
             obj = res.data.data
@@ -129,6 +142,17 @@ const UserApi = () => {
     }
     return (
         <div>
+            {loading && <div className='parent'>
+                <div>
+                    <div className='pop-up'>
+                        <h5><b>Are You Sure You Want to Delete?</b></h5>
+                        <div className='d-flex justify-content-end'>
+                            <button className='btn btn-danger me-2' onClick={Delete}>OK</button>
+                            <button onClick={NoDelete} className='btn btn-warning '>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>}
             <Row>
                 <Col xs={6} className="offset-3">
                     <Container className="mt-1 py-1 px-4 border border-1 border-black rounded-2 shadow-lg">
@@ -335,6 +359,7 @@ const UserApi = () => {
                     </Container>
                 </Col>
             </Row>
+
             <div className="container bg-body-secondary mt-3">
                 <h2 className='text-center py-3'>Form</h2>
                 <Table className="">
