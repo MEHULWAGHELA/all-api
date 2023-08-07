@@ -68,27 +68,23 @@ const FetchApi = () => {
   };
 
   const updateapi = () => {
-    let formdata = new FormData();
-    formdata.append("_id", obj._id);
-    formdata.append("userImage", obj.userImage);
-    formdata.append("firstName", obj.firstName);
-    formdata.append("lastName", obj.lastName);
-    formdata.append("age", obj.age);
-    formdata.append("city", obj.city);
-    formdata.append("gender", obj.gender);
-    formdata.append("hobbies", obj.hobbies);
-    for (let x of formdata.entries()) {
-      console.log(x)
-    }
-    console.log(obj)
+    let formdata1 = new FormData();
+    formdata1.append("_id", obj._id);
+    formdata1.append("userImage", obj.userImage);
+    formdata1.append("firstName", obj.firstName);
+    formdata1.append("lastName", obj.lastName);
+    formdata1.append("age", obj.age);
+    formdata1.append("city", obj.city);
+    formdata1.append("gender", obj.gender);
+    formdata1.append("hobbies", obj.hobbies);
     fetch("https://student-api.mycodelibraries.com/api/user/update?id=" + obj._id, {
       method: 'POST',
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: JSON.stringify(obj)
+      body: formdata1
     })
-      .then((res) => getData())
+      .then((res) => {
+        console.log(res)
+        getData()
+      })
       .catch((err) => console.log(err));
   };
 
