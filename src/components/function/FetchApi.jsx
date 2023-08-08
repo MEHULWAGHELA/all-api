@@ -23,6 +23,16 @@ const FetchApi = () => {
     formdata.append("city", obj.city);
     formdata.append("gender", obj.gender);
     formdata.append("hobbies", obj.hobbies);
+    /* if we want to send data in api with image also then we have to use formdata which is method of javascript */
+    /* in fetch api we have to send data by body key and we have to write method..
+    if we have to use protected api then we have to send headers with token 
+    
+    Important=> in fatch api response . if we want data then we have to use res.json() in which we get data and for that we have to use async await and then we have to store any state like
+    a=await res.json()
+    then arr=a.data
+    if we send object during post method we have to data in stringify format and if we send data in formdata then we dont have to stringify it
+
+    body:JSON.stringify(obj)*/
     fetch(
       "https://student-api.mycodelibraries.com/api/user/add", {
       method: 'POST',
@@ -46,8 +56,8 @@ const FetchApi = () => {
     fetch('https://student-api.mycodelibraries.com/api/user/delete?id=' + id, {
       method: 'DELETE',
     })
-      .then(async (res) => {
-        await getData();
+      .then((res) => {
+        getData();
       })
       .catch((err) => console.log(err));
   };
@@ -66,10 +76,10 @@ const FetchApi = () => {
         console.log(err);
       });
   };
-
+  /* in this api when we update we have to pass id directly not like this _id therefore we have to change key name from _id to id */
   const updateapi = () => {
     let formdata1 = new FormData();
-    formdata1.append("_id", obj._id);
+    formdata1.append("id", obj._id);
     formdata1.append("userImage", obj.userImage);
     formdata1.append("firstName", obj.firstName);
     formdata1.append("lastName", obj.lastName);

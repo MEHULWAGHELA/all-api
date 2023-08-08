@@ -9,7 +9,12 @@ const TokenApi = () => {
             "Authorization": 'Bearer 8c4b9e86d5eb981e06cbcd32fe3e31a40a5337d7e3c4af1c018b11e32db4862a'
         }
     }
-
+    /* in token based api we have to make object of token . it is based on api. We can also make token of id password
+    if we want data then we have to send token as a parmeter 
+    for this api we have make token from website gorest and login with gmail or any email and take token
+    token send in 3rd parameter in post method and as a 2nd parameter in delete and get api
+    if we not send token during get api then only that data access which is access by any one
+    if token not true or invalid then error 401 occur */
     const setData = () => {
         axios.post('https://gorest.co.in/public/v2/users', obj, token)
             .then((res) => {
