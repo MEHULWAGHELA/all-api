@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { Col, Container, Form, FormGroup, Input, Label, Row, Spinner, Table } from 'reactstrap'
-const UserApi = () => {
+const Loader = () => {
     let [arr, setarr] = useState([])
     let [obj, setobj] = useState({ hobbies: '' })
     let [rowdelet, setrowdelet] = useState(false)
@@ -390,4 +390,4 @@ const UserApi = () => {
     )
 }
 
-export default UserApi
+export default Loader
