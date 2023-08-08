@@ -13,8 +13,8 @@ function App() {
       {/* <Api /> */}
       {/* <ClassApi /> */}
       {/* <ProductApi /> */}
-      <UserApi />
-      {/* <FetchApi/> */}
+      {/* <UserApi /> */}
+      <FetchApi/>
       {/* <TokenApi /> */}
     </div>
   );

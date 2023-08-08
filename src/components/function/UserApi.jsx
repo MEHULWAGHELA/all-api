@@ -8,6 +8,7 @@ const UserApi = () => {
     let reference = useRef()
     let [deleteid, setdeleteid] = useState(null)
     let [loading, setloading] = useState(false)
+    const [apicall, setapicall] = useState(false)
     /* api methods are different type. Which is created by backend developer
     Mostly 4 to 5 api method available
     1=>getapi
@@ -59,19 +60,25 @@ const UserApi = () => {
         for (let x of formdata.entries()) {
             console.log(x)
         }
-        axios.post('https://student-api.mycodelibraries.com/api/user/add', formdata)
-            .then((res) => {
-                console.log(res)
-                getData()
-            }
-            )
-            .catch((err) => console.log(err))
+        setapicall(true)
+        setTimeout(() => {
+            axios.post('https://student-api.mycodelibraries.com/api/user/add', formdata)
+                .then((res) => {
+                    console.log(res)
+                    getData()
+                    setapicall(false)
+                }
+                )
+                .catch((err) => console.log(err))
+        }, 5000);
     }
     const getData = () => {
+        setapicall(true)
         axios.get('https://student-api.mycodelibraries.com/api/user/get')
             .then((res) => {
                 arr = res.data.data
                 setarr([...arr])
+                setapicall(false)
             }
             )
             .catch((err) => console.log(err))
@@ -82,9 +89,11 @@ const UserApi = () => {
     }
     useEffect(() => {
         if (loading) {
+            setapicall(true)
             axios.delete(`https://student-api.mycodelibraries.com/api/user/delete?id=${deleteid}`).then((res) => {
                 setrowdelet(false)
                 getData()
+                setapicall(false)
             }).catch((err) => {
                 console.log(err)
                 setrowdelet(false)
@@ -97,23 +106,27 @@ const UserApi = () => {
 
     const Delete = () => {
         setloading(true)
-        setrowdelet(false)
     }
     const NoDelete = () => {
         setloading(false)
-        setrowdelet(false)
     }
     const editFunction = (id) => {
+        setapicall(true)
         axios.get("https://student-api.mycodelibraries.com/api/user/get-user-by-id?id=" + id).then((res) => {
             obj = res.data.data
             obj.hobbies = obj.hobbies.split(",")
             setobj({ ...obj })
+            setapicall(false)
         }).catch((err) => { console.log(err) })
     }
 
     const updateapi = () => {
         obj.id = obj._id
-        axios.post('https://student-api.mycodelibraries.com/api/user/update', obj).then((res) => getData()).catch((err) => console.log(err))
+        setapicall(true)
+        axios.post('https://student-api.mycodelibraries.com/api/user/update', obj).then((res) => {
+            getData()
+            setapicall(false)
+        }).catch((err) => console.log(err))
     }
 
     useEffect(() => {
@@ -163,9 +176,12 @@ const UserApi = () => {
                     </div>
                 </div>
             </div>}
+            {apicall && <div className='loader position-fixed vh-100 vw-100  d-flex justify-content-center align-items-center'><img src={require('../../assets/images/1200x1200.gif')} alt="" style={{ width: '200px', height: '200px' }} /></div>}
+
             <Row>
                 <Col xs={6} className="offset-3">
                     <Container className="mt-1 py-1 px-4 border border-1 border-black rounded-2 shadow-lg">
+
                         <h1 className="text-center py-3">Student Form</h1>
                         <Form onSubmit={(e) => { submitFunction(e) }}>
                             <Row>
