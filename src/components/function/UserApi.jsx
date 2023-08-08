@@ -4,9 +4,10 @@ import { Col, Container, Form, FormGroup, Input, Label, Row, Spinner, Table } fr
 const UserApi = () => {
     let [arr, setarr] = useState([])
     let [obj, setobj] = useState({ hobbies: '' })
-    let [loading, setloading] = useState(false)
     let [rowdelet, setrowdelet] = useState(false)
     let reference = useRef()
+    let [deleteid, setdeleteid] = useState(null)
+    let [loading, setloading] = useState(false)
     /* api methods are different type. Which is created by backend developer
     Mostly 4 to 5 api method available
     1=>getapi
@@ -75,23 +76,32 @@ const UserApi = () => {
             )
             .catch((err) => console.log(err))
     }
-    const deleteapi = (a) => {
-        setloading(true)
-        if (rowdelet) {
-            a = `https://student-api.mycodelibraries.com/api/user/delete?id=${a}`
-            axios.delete(a).then((res) => {
+    const deleteapi = (id) => {
+        setdeleteid(id)
+        setrowdelet(true)
+    }
+    useEffect(() => {
+        if (loading) {
+            axios.delete(`https://student-api.mycodelibraries.com/api/user/delete?id=${deleteid}`).then((res) => {
                 setrowdelet(false)
                 getData()
-            }).catch((err) => console.log(err))
+            }).catch((err) => {
+                console.log(err)
+                setrowdelet(false)
+            })
         }
-    }
+        else {
+            setrowdelet(false)
+        }
+    }, [loading])
+
     const Delete = () => {
-        setrowdelet(true)
-        setloading(false)
+        setloading(true)
+        setrowdelet(false)
     }
     const NoDelete = () => {
-        setrowdelet(false)
         setloading(false)
+        setrowdelet(false)
     }
     const editFunction = (id) => {
         axios.get("https://student-api.mycodelibraries.com/api/user/get-user-by-id?id=" + id).then((res) => {
@@ -142,7 +152,7 @@ const UserApi = () => {
     }
     return (
         <div>
-            {loading && <div className='parent'>
+            {rowdelet && <div className='parent'>
                 <div>
                     <div className='pop-up'>
                         <h5><b>Are You Sure You Want to Delete?</b></h5>
