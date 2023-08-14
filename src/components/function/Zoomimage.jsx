@@ -30,6 +30,7 @@ const ZoomImage = () => {
     const getData = () => {
         axios.get('https://student-api.mycodelibraries.com/api/user/get')
             .then((res) => {
+
                 arr = res.data.data
                 setarr([...arr])
             }
@@ -98,6 +99,11 @@ const ZoomImage = () => {
     }
 
     useEffect(() => {
+        // Any website source code we can get like this
+        axios.get('https://www.goibibo.com/').then((res) => {
+            let html = new DOMParser().parseFromString(res.data, 'text/html')
+            console.log(html.getElementsByTagName('title')[0].innerText)
+        })
         getData()
     }, [])
 
@@ -136,7 +142,6 @@ const ZoomImage = () => {
             <Row>
                 <Col xs={6} className="offset-3">
                     <Container className="mt-1 py-1 px-4 border border-1 border-black rounded-2 shadow-lg">
-
                         <h1 className="text-center py-3">Student Form</h1>
                         <Form onSubmit={(e) => { submitFunction(e) }}>
                             <Row>
@@ -234,7 +239,6 @@ const ZoomImage = () => {
                                                 value="Female"
                                                 checked={obj.gender === "Female" || obj.gender === "female"}
                                             />
-
                                             <Label
                                                 check
                                                 for="radio"
@@ -250,7 +254,7 @@ const ZoomImage = () => {
                                         check
                                         for="example"
                                         className="fw-600 
-                                my-2"
+                                        my-2"
                                     >
                                         hobbies
                                     </Label>
@@ -340,7 +344,6 @@ const ZoomImage = () => {
                     </Container>
                 </Col>
             </Row>
-
             <div className="container bg-body-secondary mt-3">
                 <h2 className='text-center py-3'>Form</h2>
                 <Table className="">
