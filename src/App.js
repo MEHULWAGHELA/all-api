@@ -6,6 +6,7 @@ import ProductApi from "./components/class/ProductApi";
 import TokenApi from "./components/function/TokenApi";
 import UserApi from "./components/function/UserApi";
 import FetchApi from "./components/function/FetchApi";
+import ZoomImage from "./components/function/Zoomimage";
 
 function App() {
   return (
@@ -14,8 +15,9 @@ function App() {
       {/* <ClassApi /> */}
       {/* <ProductApi /> */}
       {/* <UserApi /> */}
-      <FetchApi/>
+      {/* <FetchApi/> */}
       {/* <TokenApi /> */}
+      <ZoomImage />
     </div>
   );
 }
